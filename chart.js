@@ -11,15 +11,6 @@
     // test with dummy data
     function generateData() {
         var _data = [];
-
-        // generate data
-        // _.times(_.random(30, 50), function (n) {
-        //     _data.push({
-        //         s: _.random(44, 2000), // size/area of bubble
-        //         x: _.random(-100, 100),
-        //         y: _.random(-100, 100)
-        //     });
-        // });
         
         for (var i=0; i < domestic_items.length; i++) {
             console.log(i, domestic_items[i])
@@ -29,6 +20,20 @@
                     s: _.random(44, 2000),
                     x: domestic_items[i]["domestic"]["x"],
                     y: domestic_items[i]["domestic"]["y"]
+                });
+            } else {
+                continue;
+            }
+        }
+
+        for (var i=0; i < international_items.length; i++) {
+            console.log(i, international_items[i])
+            if (typeof international_items[i]["international"] === "object") {
+                _data.push({
+                    airline: international_items[i]["name"],
+                    s: _.random(44, 2000),
+                    x: international_items[i]["international"]["x"],
+                    y: international_items[i]["international"]["y"]
                 });
             } else {
                 continue;
