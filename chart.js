@@ -1,6 +1,12 @@
 'use strict';
 
-(function () {
+// require('data_domestic');
+
+
+// (function () {
+
+    console.log(domestic_items);
+
 
     // test with dummy data
     function generateData() {
@@ -14,20 +20,34 @@
         //         y: _.random(-100, 100)
         //     });
         // });
+        
+        for (var i=0; i < domestic_items.length; i++) {
+            console.log(i, domestic_items[i])
+            if (typeof domestic_items[i]["domestic"] === "object") {
+                _data.push({
+                    airline: domestic_items[i]["name"],
+                    s: _.random(44, 2000),
+                    x: domestic_items[i]["domestic"]["x"],
+                    y: domestic_items[i]["domestic"]["y"]
+                });
+            } else {
+                continue;
+            }
+        }
 
-        _data.push({
-            airline: "Aegean Airlines",
-            s: _.random(44, 2000), // size/area of bubble
-            x: _.random(0, 100),
-            y: _.random(-100, 0)
-        });
+        // _data.push({
+        //     airline: "Aegean Airlines",
+        //     s: _.random(44, 2000), // size/area of bubble
+        //     x: _.random(0, 100),
+        //     y: _.random(-100, 0)
+        // });
 
-        _data.push({
-            airline: "Aegean Airlines",
-            s: _.random(44, 2000), // size/area of bubble
-            x: _.random(-100, 0),
-            y: _.random(0, 100)
-        });
+        // _data.push({
+        //     airline: "Aegean Airlines",
+        //     s: _.random(44, 2000), // size/area of bubble
+        //     x: _.random(-100, 0),
+        //     y: _.random(0, 100)
+        // });
 
         return _data;
     }
@@ -87,4 +107,4 @@
         d3.select('#vis').datum(data).call(chart).style('fill', 'white');
     }
     render();
-})();
+// })();
