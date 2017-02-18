@@ -38,7 +38,15 @@
         return _data;
     }
 
-    var colors = d3.scale.category20();
+    // var width = 960,
+    // height = 1160;
+
+    // var projection = d3.geoAlbers()
+    // .center([0, 55.4])
+    // .rotate([4.4, 0])
+    // .parallels([50, 60])
+    // .scale(1200 * 5)
+    // .translate([width / 2, height / 2]);
 
     var data = generateData();
 
@@ -83,15 +91,31 @@
             }
         });
     });
-    var tooltip = d3.select("body")
-        .append("div")
-        .style("position", "absolute")
-        .style("z-index", "10")
-        .style("visibility", "hidden")
-        .text("a simple tooltip");
+    // var tooltip = d3.select("body")
+    //     .append("div")
+    //     .style("position", "absolute")
+    //     .style("z-index", "10")
+    //     .style("visibility", "hidden")
+    //     .text("a simple tooltip");
 
-    var all_airlines = d3.selectAll(".point");
+    // var textLabel = fc.layoutTextLabel()
+    //     .padding(2)
+    //     .value(function(d) { return d.airline; });
 
+    // var strategy = fc.layoutRemoveOverlaps(fc.layoutGreedy());
+
+    // create the layout that positions the labels
+    // var labels = fc.layoutLabel(strategy)
+    //   .size(function(_, i, g) {
+    //       // measure the label and add the required padding
+    //       var textSize = d3.select(g[i])
+    //           .select('text')
+    //           .node()
+    //           .getBBox();
+    //       return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+    //   })
+    //   .position(function(d) { return projection([0, 0]); })
+    //   .component(textLabel);
 
     var gridlines = fc.annotation.gridline();
 
@@ -102,6 +126,7 @@
 
     function render() {
         d3.select('#vis').datum(data).call(chart).style('fill', 'white');
+       
     }
     render();
 // })();
