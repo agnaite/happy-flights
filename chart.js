@@ -1,14 +1,7 @@
 'use strict';
 
-// require('data_domestic');
-
-
 // (function () {
 
-    console.log(domestic_items);
-
-
-    // test with dummy data
     function generateData() {
         var _data = [];
         
@@ -17,7 +10,8 @@
             if (typeof domestic_items[i]["domestic"] === "object") {
                 _data.push({
                     airline: domestic_items[i]["name"],
-                    s: _.random(44, 2000),
+                    // s: _.random(400, 401),
+                    s: 600,
                     x: domestic_items[i]["domestic"]["x"],
                     y: domestic_items[i]["domestic"]["y"]
                 });
@@ -31,7 +25,8 @@
             if (typeof international_items[i]["international"] === "object") {
                 _data.push({
                     airline: international_items[i]["name"],
-                    s: _.random(44, 2000),
+                    // s: _.random(400, 401),
+                    s: 600,
                     x: international_items[i]["international"]["x"],
                     y: international_items[i]["international"]["y"]
                 });
@@ -40,26 +35,14 @@
             }
         }
 
-        // _data.push({
-        //     airline: "Aegean Airlines",
-        //     s: _.random(44, 2000), // size/area of bubble
-        //     x: _.random(0, 100),
-        //     y: _.random(-100, 0)
-        // });
-
-        // _data.push({
-        //     airline: "Aegean Airlines",
-        //     s: _.random(44, 2000), // size/area of bubble
-        //     x: _.random(-100, 0),
-        //     y: _.random(0, 100)
-        // });
-
         return _data;
     }
 
+    var colors = d3.scale.category20();
+
     var data = generateData();
 
-    var size = d3.scale.linear().range([40, 2000]).domain(fc.util.extent().fields(['s'])(data));
+    var size = d3.scale.linear().range([600, 601]).domain(fc.util.extent().fields(['s'])(data));
 
     // create a chart with two linear axes
     var chart = fc.chart.cartesian(d3.scale.linear(), d3.scale.linear()).xDomain(fc.util.extent().pad(0.4).fields(['x'])(data)).xLabel('x Label').xBaseline(0).yDomain(fc.util.extent().pad(0.4).fields(['y'])(data)).yOrient('left').yBaseline(0).yTicks(7).yLabel('y Label').margin({ bottom: 20, right: 15, left: 25 });
@@ -100,6 +83,15 @@
             }
         });
     });
+    var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("a simple tooltip");
+
+    var all_airlines = d3.selectAll(".point");
+
 
     var gridlines = fc.annotation.gridline();
 

@@ -1,5 +1,11 @@
-.bg-black,
-.background,
+body { font-family: Consolas, monaco, monospace;}
+header { padding-left: 25px; }
 .chart {
-    background-color: white;
+    margin: 10px 0;
+    width: 100%;
+    height: 600px;
+}
+.chart > svg {
+    margin-left: auto;
+    margin-right: auto;
 }
