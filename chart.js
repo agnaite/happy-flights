@@ -34,7 +34,7 @@ d3.json("/data.json", function(error, data) {
       },
       "false": {
         "true": "orange",
-        "false": "pink"
+        "false": "blue"
       }
     }[d.x < 0][d.y < 0];
   };
