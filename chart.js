@@ -9,9 +9,9 @@ for (var i=0; i < items.length; i++) {
 }
 
 // set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 50, left: 50},
-    width = 900 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+var margin = {top: 50, right: 50, bottom: 80, left: 50},
+    width = window.innerWidth - margin.left - margin.right,
+    height = window.innerHeight - margin.top - margin.bottom;
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'

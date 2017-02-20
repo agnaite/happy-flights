@@ -2,13 +2,13 @@ body { font-family: Consolas, monaco, monospace;}
 header { padding-left: 25px; }
 
 .tooltip {
+  font-family: Consolas, monaco, monospace;
+  font-size: 11px;
   position: absolute;
   text-align: center;
   width: 60px;
   height: 12px;
   padding: 8px;
-  margin-top: -20px;
-  font: 10px sans-serif;
-/*  background: #ddd;*/
+  margin-top: -10px;
   pointer-events: none;
 }
