@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<!-- https://github.com/ScottLogic/d3fc -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/11.0.0/d3fc.css"/>
 <!-- http://clrs.cc/ -->
 <link href="https://s3-us-west-2.amazonaws.com/colors-css/2.2.0/colors.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="style.css">
@@ -12,23 +10,13 @@
     <p>Happy Flights</p>
 </header>
 
-<section id="vis" class='chart'></section>
+<svg></svg>
 
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/8.0.0/d3fc.bundle.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" charset="utf-8"></script>
 <!-- data -->
 <script type="text/javascript" src="data_domestic.js"></script>
 <script type="text/javascript" src="data_international.js"></script>
+
 <!-- d3 code -->
-<script src="https://npmcdn.com/topojson@1.6.24/build/topojson.min.js"></script>
-<!-- <script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://npmcdn.com/d3fc-rebind@4.0.1/build/d3fc-rebind.js"></script>
-<script src="https://npmcdn.com/d3fc-data-join@2.0.0/build/d3fc-data-join.js"></script>
-<script src="https://npmcdn.com/d3fc-label-layout@4.0.0/build/d3fc-label-layout.js"></script> -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
 <script src="chart.js" charset="utf-8"></script>
-
-
-<script>
-    d3.select(self.frameElement).style('height', '700px');
-</script>

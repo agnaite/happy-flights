@@ -1,132 +1,69 @@
 'use strict';
 
-// (function () {
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 50, left: 50},
+    width = 700 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
-    function generateData() {
-        var _data = [];
-        
-        for (var i=0; i < domestic_items.length; i++) {
-            console.log(i, domestic_items[i])
-            if (typeof domestic_items[i]["domestic"] === "object") {
-                _data.push({
-                    airline: domestic_items[i]["name"],
-                    // s: _.random(400, 401),
-                    s: 600,
-                    x: domestic_items[i]["domestic"]["x"],
-                    y: domestic_items[i]["domestic"]["y"]
-                });
-            } else {
-                continue;
-            }
-        }
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform",
+  "translate(" + margin.left + "," + margin.top + ")");
 
-        for (var i=0; i < international_items.length; i++) {
-            console.log(i, international_items[i])
-            if (typeof international_items[i]["international"] === "object") {
-                _data.push({
-                    airline: international_items[i]["name"],
-                    // s: _.random(400, 401),
-                    s: 600,
-                    x: international_items[i]["international"]["x"],
-                    y: international_items[i]["international"]["y"]
-                });
-            } else {
-                continue;
-            }
-        }
+d3.json("/data.json", function(error, data) {
+  if (error) throw error;
 
-        return _data;
-    }
+  var x = d3.scaleLinear().domain([-10, 10]).range([0, width]);
+  var y = d3.scaleLinear().domain([-10, 10]).range([height, 0]);
 
-    // var width = 960,
-    // height = 1160;
+  // used for the tooltips
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-    // var projection = d3.geoAlbers()
-    // .center([0, 55.4])
-    // .rotate([4.4, 0])
-    // .parallels([50, 60])
-    // .scale(1200 * 5)
-    // .translate([width / 2, height / 2]);
+  var makeColor = function(d) {
+    return {
+      "true": {
+        "true": "green",
+        "false": "red"
+      },
+      "false": {
+        "true": "orange",
+        "false": "pink"
+      }
+    }[d.x < 0][d.y < 0];
+  };
 
-    var data = generateData();
+  svg
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("r", function(d) { return 10; })
+    .attr("cx", function(d) { return x(d.x); })
+    .attr("cy", function(d) { return y(d.y); })
+    .attr("fill", function(d) { return makeColor(d); })
+    .attr("fill-opacity", 0.5)
+    .attr("stroke", function(d) { return makeColor(d); })
+    .on("mouseover", function(d) {
+      div.transition()
+        .duration(200)
+        .style("opacity", 1);
 
-    var size = d3.scale.linear().range([600, 601]).domain(fc.util.extent().fields(['s'])(data));
+      div.html(d.name)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 20) + "px");
 
-    // create a chart with two linear axes
-    var chart = fc.chart.cartesian(d3.scale.linear(), d3.scale.linear()).xDomain(fc.util.extent().pad(0.4).fields(['x'])(data)).xLabel('x Label').xBaseline(0).yDomain(fc.util.extent().pad(0.4).fields(['y'])(data)).yOrient('left').yBaseline(0).yTicks(7).yLabel('y Label').margin({ bottom: 20, right: 15, left: 25 });
-
-    // create the point series
-    var point = fc.series.point().size(function (d) {
-        return size(d.s);
-    }).xValue(function (d) {
-        return d.x;
-    }).yValue(function (d) {
-        return d.y;
-    }).decorate(function (s) {
-        s.attr('d', function (d) {
-            if (d.x >= 0 && d.y >= 0) {
-                d3.select(this).style({
-                    fill: 'green',
-                    'fill-opacity': 0.6,
-                    stroke: 'green'
-                });
-            } else if (d.x <= 0 && d.y >= 0) {
-                d3.select(this).style({
-                    fill: 'red',
-                    'fill-opacity': 0.6,
-                    stroke: 'red'
-                });
-            } else if (d.x < 0 && d.y < 0) {
-                d3.select(this).style({
-                    fill: 'orange',
-                    'fill-opacity': 0.6,
-                    stroke: 'orange'
-                });
-            } else if (d.x > 0 && d.y < 0) {
-                d3.select(this).style({
-                    fill: 'blue',
-                    'fill-opacity': 0.6,
-                    stroke: 'blue'
-                });
-            }
-        });
+    })
+    .on("mouseout", function(d) {
+      div.transition()
+        .duration(500)
+        .style("opacity", 0);
     });
-    // var tooltip = d3.select("body")
-    //     .append("div")
-    //     .style("position", "absolute")
-    //     .style("z-index", "10")
-    //     .style("visibility", "hidden")
-    //     .text("a simple tooltip");
 
-    // var textLabel = fc.layoutTextLabel()
-    //     .padding(2)
-    //     .value(function(d) { return d.airline; });
-
-    // var strategy = fc.layoutRemoveOverlaps(fc.layoutGreedy());
-
-    // create the layout that positions the labels
-    // var labels = fc.layoutLabel(strategy)
-    //   .size(function(_, i, g) {
-    //       // measure the label and add the required padding
-    //       var textSize = d3.select(g[i])
-    //           .select('text')
-    //           .node()
-    //           .getBBox();
-    //       return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
-    //   })
-    //   .position(function(d) { return projection([0, 0]); })
-    //   .component(textLabel);
-
-    var gridlines = fc.annotation.gridline();
-
-    // add it to the chart
-    var multi = fc.series.multi().series([gridlines, point]);
-
-    chart.plotArea(multi);
-
-    function render() {
-        d3.select('#vis').datum(data).call(chart).style('fill', 'white');
-       
-    }
-    render();
-// })();
+});
