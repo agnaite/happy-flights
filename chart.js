@@ -1,9 +1,17 @@
 'use strict';
 
+var data = [];
+
+for (var i=0; i < items.length; i++) {
+  if (typeof items[i]['coords'] === "object") {
+    data.push(items[i]);
+  }
+}
+
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 50, left: 50},
-    width = 700 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 900 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
@@ -15,11 +23,11 @@ var svg = d3.select("svg")
   .attr("transform",
   "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("/data.json", function(error, data) {
-  if (error) throw error;
+// d3.json("/data.json", function(error, data) {
+//   if (error) throw error;
 
-  var x = d3.scaleLinear().domain([-10, 10]).range([0, width]);
-  var y = d3.scaleLinear().domain([-10, 10]).range([height, 0]);
+  var x = d3.scaleLinear().domain([-100, 100]).range([0, width]);
+  var y = d3.scaleLinear().domain([-100, 100]).range([height, 0]);
 
   // used for the tooltips
   var div = d3.select("body").append("div")
@@ -36,7 +44,7 @@ d3.json("/data.json", function(error, data) {
         "true": "orange",
         "false": "blue"
       }
-    }[d.x < 0][d.y < 0];
+    }[d.coords.x < 0][d.coords.y < 0];
   };
 
   svg
@@ -44,9 +52,9 @@ d3.json("/data.json", function(error, data) {
     .data(data)
     .enter()
     .append("circle")
-    .attr("r", function(d) { return 10; })
-    .attr("cx", function(d) { return x(d.x); })
-    .attr("cy", function(d) { return y(d.y); })
+    .attr("r", function(d) { return 15; })
+    .attr("cx", function(d) { return x(d['coords']['x']); })
+    .attr("cy", function(d) { return y(d['coords']['y']); })
     .attr("fill", function(d) { return makeColor(d); })
     .attr("fill-opacity", 0.5)
     .attr("stroke", function(d) { return makeColor(d); })
@@ -66,4 +74,4 @@ d3.json("/data.json", function(error, data) {
         .style("opacity", 0);
     });
 
-});
+// });
