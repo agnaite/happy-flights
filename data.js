@@ -2,11 +2,11 @@ function domestic(value) {
   var x;
   var y;
   if (value) {
-    x = Math.floor((Math.random() * 100) + 1);
-    y = Math.floor((Math.random() * 100) + 1);
+    x = Math.floor((Math.random() * 90) + 10);
+    y = Math.floor((Math.random() * 90) + 10);
   } else {
-    x = Math.floor((Math.random() * 100) + 1);
-    y = -(Math.floor((Math.random() * 100) + 1));
+    x = Math.floor((Math.random() * 90) + 10);
+    y = -(Math.floor((Math.random() * 90) + 10));
   }
   return {"x": x, "y": y};
 }
@@ -15,11 +15,11 @@ function international(value) {
   var x;
   var y;
   if (value) {
-    x = -(Math.floor((Math.random() * 100) + 1));
-    y = Math.floor((Math.random() * 100) + 1);
+    x = -(Math.floor((Math.random() * 90) + 10));
+    y = Math.floor((Math.random() * 90) + 10);
   } else {
-    x = -(Math.floor((Math.random() * 100) + 1));
-    y = -(Math.floor((Math.random() * 100) + 1));
+    x = -(Math.floor((Math.random() * 90) + 10));
+    y = -(Math.floor((Math.random() * 90) + 10));
   }
   return {"x": x, "y": y};
 }

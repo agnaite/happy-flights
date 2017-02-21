@@ -9,9 +9,11 @@ for (var i=0; i < items.length; i++) {
 }
 
 // set the dimensions and margins of the graph
-var margin = {top: 50, right: 50, bottom: 80, left: 50},
-    width = window.innerWidth - margin.left - margin.right,
-    height = window.innerHeight - margin.top - margin.bottom;
+var margin = {top: 50, right: 50, bottom: 50, left: 50},
+    w = window.innerWidth - 100,
+    h = window.innerHeight - 100,
+    width =  w - margin.left - margin.right,
+    height = h - margin.top - margin.bottom;
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
@@ -26,8 +28,13 @@ var svg = d3.select("svg")
 // d3.json("/data.json", function(error, data) {
 //   if (error) throw error;
 
-  var x = d3.scaleLinear().domain([-100, 100]).range([0, width]);
-  var y = d3.scaleLinear().domain([-100, 100]).range([height, 0]);
+  var x = d3.scaleLinear().domain([-100, 100]).range([10, width]);
+  var y = d3.scaleLinear().domain([-100, 100]).range([height, 10]);
+
+  var xAxisLabel = 'Type of Flight';
+  var yAxisLabel = 'Free Alcohol';
+
+  var pad = 20;
 
   // used for the tooltips
   var div = d3.select("body").append("div")
@@ -74,4 +81,17 @@ var svg = d3.select("svg")
         .style("opacity", 0);
     });
 
-// });
+    svg.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("x", width / 2)
+      .attr("y", height - 6)
+      .text(xAxisLabel);
+
+    //y-axis label
+    svg.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("dy", ".75em")
+      .attr("transform", "translate(" + 0 + ", " + (h / 2 - pad) + ") rotate(-90)")
+      .text(yAxisLabel);
