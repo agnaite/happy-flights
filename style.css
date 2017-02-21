@@ -12,3 +12,9 @@ header { padding-left: 25px; }
   margin-top: -10px;
   pointer-events: none;
 }
+
+.axis {
+  stroke-width: 2px;
+  stroke: lightgray;
+  fill: none;
+}

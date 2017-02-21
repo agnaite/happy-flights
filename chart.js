@@ -31,6 +31,17 @@ var svg = d3.select("svg")
   var x = d3.scaleLinear().domain([-100, 100]).range([10, width]);
   var y = d3.scaleLinear().domain([-100, 100]).range([height, 10]);
 
+  
+//x axis
+svg.append("path")
+  .attr("class","axis")
+  .attr("d","M0,"+height/2+" L"+width+","+height/2);
+
+//y axis
+svg.append("path")
+  .attr("class","axis")
+  .attr("d","M"+width/2+",0 L"+width/2+","+height);
+
   var xAxisLabel = 'Type of Flight';
   var yAxisLabel = 'Free Alcohol';
 
