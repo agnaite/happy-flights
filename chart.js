@@ -31,7 +31,7 @@ var svg = d3.select("svg")
   var x = d3.scaleLinear().domain([-100, 100]).range([10, width]);
   var y = d3.scaleLinear().domain([-100, 100]).range([height, 10]);
 
-  
+
 //x axis
 svg.append("path")
   .attr("class","axis")
@@ -42,8 +42,8 @@ svg.append("path")
   .attr("class","axis")
   .attr("d","M"+width/2+",0 L"+width/2+","+height);
 
-  var xAxisLabel = 'Type of Flight';
-  var yAxisLabel = 'Free Alcohol';
+  // var xAxisLabel = 'Type of Flight';
+  // var yAxisLabel = 'Free Alcohol';
 
   var pad = 20;
 
@@ -55,22 +55,25 @@ svg.append("path")
   var makeColor = function(d) {
     return {
       "true": {
-        "true": "green",
-        "false": "red"
+        "true": "#16a085",
+        "false": "#2980b9"
       },
       "false": {
-        "true": "orange",
-        "false": "blue"
+        "true": "#8e44ad",
+        "false": "#e74c3c"
       }
     }[d.coords.x < 0][d.coords.y < 0];
   };
+
+  var color = d3.scaleOrdinal()
+    .range(["#16a085", "#2980b9", "#8e44ad","#e74c3c"]);
 
   svg
     .selectAll("dot")
     .data(data)
     .enter()
     .append("circle")
-    .attr("r", function(d) { return 15; })
+    .attr("r", function(d) { return d["radius"]; })
     .attr("cx", function(d) { return x(d['coords']['x']); })
     .attr("cy", function(d) { return y(d['coords']['y']); })
     .attr("fill", function(d) { return makeColor(d); })
@@ -81,9 +84,9 @@ svg.append("path")
         .duration(200)
         .style("opacity", 1);
 
-      div.html(d.name)
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 20) + "px");
+    div.html(d.name)
+      .style("left", (d3.event.pageX) + "px")
+      .style("top", (d3.event.pageY - 20) + "px");
 
     })
     .on("mouseout", function(d) {
@@ -92,17 +95,38 @@ svg.append("path")
         .style("opacity", 0);
     });
 
-    svg.append("text")
-      .attr("class", "axis-label")
-      .attr("text-anchor", "middle")
-      .attr("x", width / 2)
-      .attr("y", height - 6)
-      .text(xAxisLabel);
+    var legendSpacing = 4;
+    var legendRectSize = 18;
 
-    //y-axis label
-    svg.append("text")
-      .attr("class", "axis-label")
-      .attr("text-anchor", "middle")
-      .attr("dy", ".75em")
-      .attr("transform", "translate(" + 0 + ", " + (h / 2 - pad) + ") rotate(-90)")
-      .text(yAxisLabel);
+    var legend = svg.selectAll('.legend')                 
+      .data(color.range())                    
+      .enter()                                              
+      .append('g')                                            
+      .attr('class', 'legend')                                
+      .attr('transform', function(d, i) {                     
+        var height = legendRectSize + legendSpacing;          
+        var offset =  height * color.range().length / 2;     
+        var horz = -2 * legendRectSize;                       
+        var vert = i * height - offset;                       
+        return 'translate(' + horz + ',' + vert + ')';        
+      });
+
+   legend.append('rect')                                     
+      .attr('width', legendRectSize)                          
+      .attr('height', legendRectSize)                         
+      .style('fill', color)                                   
+      .style('stroke', color);                                
+
+    legend
+      .data([
+        {"label": 'international, no free alcohol'},
+        {"label": 'international, free alcohol'},
+        {"label": 'domestic, free alcohol'},
+        {"label": 'domestic, no free alcohol'},
+        ])
+
+    legend.append('text')                                     
+      .attr('x', legendRectSize + legendSpacing)              
+      .attr('y', legendRectSize - legendSpacing)              
+      .text(function(d) { return d.label; });                                                
+
